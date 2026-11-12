@@ -59,7 +59,8 @@ func (b *packetAccumulator) add(p *Packet) (ps []*Packet) {
 		isPSIComplete(mps) {
 		ps = mps
 		mps = nil
-	} else if isPESPayload(mps[0].Payload) && isPESComplete(mps) { // Check if PES payload is complete
+	} else if hasPES, complete := pesAccumulationStatus(mps); hasPES && complete {
+		// Check if PES payload is complete
 		ps = mps
 		mps = nil
 	}
